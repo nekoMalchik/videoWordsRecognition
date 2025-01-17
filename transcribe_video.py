@@ -97,8 +97,8 @@ def process_video(video_path, phrases, export_folder):
 
 # Главная логика программы
 if __name__ == "__main__":
-    video_folder = input("Введите путь к папке с видеофайлами: ") or "./videotest"
-    export_folder = input("Введите папку для сохранения результатов: ") or "./export"
+    video_folder = input("Введите путь к папке с видеофайлами: ") or "./gitignore/videotest"
+    export_folder = input("Введите папку для сохранения результатов: ") or "./gitignore/videotest"
     phrases = input("Введите фразы для поиска (через запятую): ").split(',')
 
     os.makedirs(export_folder, exist_ok=True)
