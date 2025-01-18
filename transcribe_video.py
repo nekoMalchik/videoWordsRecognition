@@ -1,4 +1,5 @@
 import os
+import time
 import whisper
 import json
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
@@ -97,15 +98,31 @@ def process_video(video_path, phrases, export_folder):
 
 # Главная логика программы
 if __name__ == "__main__":
-    video_folder = input("Введите путь к папке с видеофайлами: ") or "./gitignore/videotest"
-    export_folder = input("Введите папку для сохранения результатов: ") or "./gitignore/videotest"
-    phrases = input("Введите фразы для поиска (через запятую): ").split(',')
+    video_folder = input("Введите путь к папке с видеофайлами: ") or "./gitignore/happy-together"
+    export_folder = input("Введите папку для сохранения результатов: ") or "./gitignore/export"
+    phrases = input("Введите фразы для поиска (через запятую): ") or "секс,секса,сексу,сексом,сексе,сексах"
+    phrases = phrases.split(',')
 
     os.makedirs(export_folder, exist_ok=True)
     videos = get_folder_filenames(video_folder)
 
-    with ProcessPoolExecutor(max_workers=8) as executor:  # Устанавливаем 8 процессов
-        for video_path in videos:
-            executor.submit(process_video, video_path, phrases, export_folder)
+    # with ThreadPoolExecutor(max_workers=4) as executor:  # Устанавливаем 8 процессов
+    #     for video_path in videos:
+    #         start_time = time.time()
+    #         print(f"Начало обработки файла: {video_path} в {time.strftime('%H:%M:%S', time.localtime(start_time))}")
+    #         executor.submit(process_video, video_path, phrases, export_folder)
+    #         end_time = time.time()
+    #         print(f"Завершение обработки файла: {video_path} в {time.strftime('%H:%M:%S', time.localtime(end_time))}")
+    #         print(f"Время обработки: {end_time - start_time:.2f} секунд")
+
+    for video_path in videos:
+        start_time = time.time()
+        print(f"Начало обработки файла: {video_path} в {time.strftime('%H:%M:%S', time.localtime(start_time))}")
+        
+        process_video(video_path, phrases, export_folder)
+        
+        end_time = time.time()
+        print(f"Завершение обработки файла: {video_path} в {time.strftime('%H:%M:%S', time.localtime(end_time))}")
+        print(f"Время обработки: {end_time - start_time:.2f} секунд")
 
     print("Готово!")
